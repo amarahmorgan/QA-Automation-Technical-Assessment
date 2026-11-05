@@ -1,0 +1,9 @@
+[
+    {
+        "scenario": "Add all products to cart",
+        "expectedResult": {
+            "cartCount": 6,
+            "cartTotalCents": 12994
+        }
+    }
+]

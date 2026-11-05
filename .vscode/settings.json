@@ -1,0 +1,14 @@
+{
+    "cucumber.features": [
+        "assessment/tests/**/*.feature"
+    ],
+    "cucumber.glue": [
+        "assessment/tests/**/*.steps.ts"
+    ],
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.expand": true,
+    "explorer.fileNesting.patterns": {
+        "*.feature": "${capture}.steps.ts, ${capture}.data.json",
+        "package.json": "package-lock.json"
+    }
+}

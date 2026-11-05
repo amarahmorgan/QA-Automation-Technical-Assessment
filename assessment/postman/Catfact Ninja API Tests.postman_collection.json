@@ -1,0 +1,799 @@
+{
+  "info": {
+    "_postman_id": "44e121d5-1692-43c3-9a28-3f2851cac32d",
+    "name": "Catfact Ninja API Tests",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52065863",
+    "_collection_link": "https://go.postman.co/collection/52065863-44e121d5-1692-43c3-9a28-3f2851cac32d?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Random Cat Fact",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "\r\nconst responseBody = pm.response.json();\r\n\r\npm.test(\"Status code should be 200\", function () {pm.response.to.have.status(200);});\r\n\r\npm.test(\"Response content type should be JSON\", function () {const contentType = pm.response.headers.get(\"Content-Type\");\r\n    pm.expect(contentType).to.include(\"application/json\");\r\n});\r\n\r\npm.test(\"Response should contain a fact\", function () {\r\n    pm.expect(responseBody).to.have.property(\"fact\");\r\n    pm.expect(responseBody.fact).to.be.a(\"string\");\r\n    pm.expect(responseBody.fact).to.not.be.empty;\r\n});\r\n\r\npm.test(\"Response should contain a numeric length\", function () {\r\n    pm.expect(responseBody.length).to.be.a(\"number\");\r\n});\r\n\r\npm.test(\"Fact length should match the length field\", function () {\r\n    pm.expect(responseBody.length).to.eql(responseBody.fact.length);\r\n});\r\n\r\npm.test(\"Fact should respect the maximum length\", function () {const maxLength = Number(pm.request.url.query.get(\"max_length\"));\r\n\r\n    pm.expect(responseBody.fact.length).to.be.at.most(maxLength);\r\n});\r\n"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/fact?max_length=14",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "fact"
+          ],
+          "query": [
+            {
+              "key": "max_length",
+              "value": "14"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Random Cat Fact",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/fact?max_length=140",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "fact"
+              ],
+              "query": [
+                {
+                  "key": "max_length",
+                  "value": "140"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": ":status",
+              "value": "200"
+            },
+            {
+              "key": "date",
+              "value": "Wed, 04 Nov 2026 20:07:46 GMT"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json"
+            },
+            {
+              "key": "server",
+              "value": "cloudflare"
+            },
+            {
+              "key": "vary",
+              "value": "Accept-Encoding"
+            },
+            {
+              "key": "cache-control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "x-ratelimit-limit",
+              "value": "100"
+            },
+            {
+              "key": "x-ratelimit-remaining",
+              "value": "99"
+            },
+            {
+              "key": "access-control-allow-origin",
+              "value": "*"
+            },
+            {
+              "key": "set-cookie",
+              "value": "XSRF-TOKEN=eyJpdiI6InBaRW5FVmVlcmdhOW9PdjdFQkdGaVE9PSIsInZhbHVlIjoiS2lyWUlSelJtdjNoNXU4d2JjYkU1MnFoWi95eDFVditSdDJ5eG9hcU5ET3drRGFnRDlMSTkxbVViRDRkMVF0R3lXQ2JwNUhTQnJHNzZTbmpDZXRRQm5hbHNjeENieXdOa1J3STQxWHZHcjlwdlFEUUJKNDhEZ2RTYkk5TnN4NnMiLCJtYWMiOiJjNDU1YTU1YmQwNmMzY2YxMzUzYmZhNWY3ZWFhN2Y5ZTMzOWQ5OGM1ZTBjOGEzNTRmNTgxYmRhN2JjNjg3NDEzIiwidGFnIjoiIn0%3D; expires=Wed, 04 Nov 2026 22:07:45 GMT; Max-Age=7200; path=/; secure; samesite=lax,catfacts_api_session=eyJpdiI6Im1NLzNtQk8ySmZwVFJQM0U5ck9lL0E9PSIsInZhbHVlIjoiQk0xVGwyWkl1OWhSTkJkM3VaQllJdXQ5a2hsWkdkVkh3c0FOUDIyYTl4ZXRzYmNDRVV3V1dXcmZWWlBVS0NFL2xVV2RMZlhoYi9YT1FUR3EvRHRVTy8yMUY3aCt0RjV4bDVaZE5jNGVxanBEZmVEVUdLdGp2TDdpZGJhRVNKd3AiLCJtYWMiOiI2M2NkNjllMDI5MDFhZDE5OWU0ZjM2MjdjM2E5NWY5MzljZDUzNzEyY2Q0ODZlNjI4MWU3MDY0MzQ4NDE1OGFlIiwidGFnIjoiIn0%3D; expires=Wed, 04 Nov 2026 22:07:45 GMT; Max-Age=7200; path=/; secure; httponly; samesite=lax"
+            },
+            {
+              "key": "x-frame-options",
+              "value": "SAMEORIGIN"
+            },
+            {
+              "key": "x-xss-protection",
+              "value": "1; mode=block"
+            },
+            {
+              "key": "x-content-type-options",
+              "value": "nosniff"
+            },
+            {
+              "key": "content-encoding",
+              "value": "gzip"
+            },
+            {
+              "key": "nel",
+              "value": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}"
+            },
+            {
+              "key": "cf-cache-status",
+              "value": "DYNAMIC"
+            },
+            {
+              "key": "report-to",
+              "value": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=%2FOXPg5PIWLKcAlHwGoMAsSXwoLjFYVClqZ%2FtSmbgA4zTHkQCXmlbBo8aSRpK5TyKt8SjPrmIfmr9YoD%2FnfrRt8dGAqow6jf6AB86%2FnDIGW5sF8bdAYU5SU2ZtNehQ8pM\"}]}"
+            },
+            {
+              "key": "cf-ray",
+              "value": "a5563f2f0e954ecd-JNB"
+            },
+            {
+              "key": "alt-svc",
+              "value": "h3=\":443\"; ma=86400"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"fact\": \"Cats can be right-pawed or left-pawed.\",\n  \"length\": 38\n}"
+        },
+        {
+          "name": "Random Cat Fact",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/fact?max_length=140",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "fact"
+              ],
+              "query": [
+                {
+                  "key": "max_length",
+                  "value": "140"
+                }
+              ]
+            }
+          },
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": ":status",
+              "value": "200"
+            },
+            {
+              "key": "date",
+              "value": "Wed, 04 Nov 2026 20:10:19 GMT"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json"
+            },
+            {
+              "key": "server",
+              "value": "cloudflare"
+            },
+            {
+              "key": "vary",
+              "value": "Accept-Encoding"
+            },
+            {
+              "key": "cache-control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "x-ratelimit-limit",
+              "value": "100"
+            },
+            {
+              "key": "x-ratelimit-remaining",
+              "value": "99"
+            },
+            {
+              "key": "access-control-allow-origin",
+              "value": "*"
+            },
+            {
+              "key": "set-cookie",
+              "value": "XSRF-TOKEN=eyJpdiI6ImVuc0Ribm1RdFEyYWg5Z3IrNFNDbnc9PSIsInZhbHVlIjoiV0YwMndHRmJ0dGxtNStMNDJlM0ZJSmVHOHRZL3dpY3liSzZlN2NKajJqbU5XYlFMS3hieWNzSnhwNDJVSkJpa0tPeEhvY2dKN0x6WFJtbW95UWxORUU1T2dYNm1qZG1VMHVSTlJtQXZwdXdoWmtzMzQ5SWdsQWZsRDNPemljMkIiLCJtYWMiOiJjYTQ5ZTQyNTZiOWJjMWRhMTk1YTI1OTBkNGRlNDI3NjFlNjJmNzY4OTIzMDUyZmY0ZTk4NDNhOGYxYTEzNWE2IiwidGFnIjoiIn0%3D; expires=Wed, 04 Nov 2026 22:10:18 GMT; Max-Age=7200; path=/; secure; samesite=lax,catfacts_api_session=eyJpdiI6IitheW4wU3RoTjhycDRGVXdhdDJMZVE9PSIsInZhbHVlIjoiSXpTT1NwbHAzS0NMUTQrQ3FiNnNwWjAwYUdzZUtaRnUvK0RwWUZuYXQ2TEp3Sk9uMnBvRjBoRVZobVVjTGUxbHhkd2hOSkhnZmZXVENWTzh5V1NaZEtibVZoRFNrT1IzNmZuS0NvWDZkbWt1WmU4RXpWQWxxNmtOc2FTU3h4VmUiLCJtYWMiOiI3NTYxYzkyNDIzZGYxMjZlOGVkMzYxM2I1ZTZlZWQ5ZmZiMTA0MzI0NGMzNTQwMjEwOTg5ZmRlYThlYmVlYmFlIiwidGFnIjoiIn0%3D; expires=Wed, 04 Nov 2026 22:10:18 GMT; Max-Age=7200; path=/; secure; httponly; samesite=lax"
+            },
+            {
+              "key": "x-frame-options",
+              "value": "SAMEORIGIN"
+            },
+            {
+              "key": "x-xss-protection",
+              "value": "1; mode=block"
+            },
+            {
+              "key": "x-content-type-options",
+              "value": "nosniff"
+            },
+            {
+              "key": "content-encoding",
+              "value": "gzip"
+            },
+            {
+              "key": "nel",
+              "value": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}"
+            },
+            {
+              "key": "cf-cache-status",
+              "value": "DYNAMIC"
+            },
+            {
+              "key": "report-to",
+              "value": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=3898kZXQe3z2Fo%2B%2Fk8Oj5i%2Bm1KxNFix52Z7z0U6Weiwin%2FzNLYzHm0VnpptJT1sstuy919pU7BeKXssgkysUXGyjFwAAZIUNk42J9DIUo9mr6fkvleb%2BCA7TydIPS5Tx\"}]}"
+            },
+            {
+              "key": "cf-ray",
+              "value": "a55642eb5bd7740d-JNB"
+            },
+            {
+              "key": "alt-svc",
+              "value": "h3=\":443\"; ma=86400"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"fact\": \"A tiger's stripes are like fingerprints\",\n  \"length\": 39\n}"
+        }
+      ]
+    },
+    {
+      "name": "List of Cat Facts",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "\nconst jsonData = pm.response.json();\n\nconst requestedLimit = Number(\n    pm.request.url.query.get(\"limit\")\n);\n\nconst maxLength = Number(\n    pm.request.url.query.get(\"max_length\")\n);\n\n// Diagnostic: compare the API-reported length with JavaScript character counts\nconst diagnostics = jsonData.data.map((item, index) => ({\n    record: index + 1,\n    fact: item.fact,\n    rawFact: JSON.stringify(item.fact),\n    reportedLength: item.length,\n    actualLength: item.fact.length,\n    unicodeCharacterCount: [...item.fact].length,\n    matches: item.length === item.fact.length,\n}));\n\nconsole.log(\"Fact length diagnostics:\", diagnostics);\n\n// 1. Status code\npm.test(\"Status code should be 200\", function () {\n    pm.response.to.have.status(200);\n});\n\n// 2. Response format\npm.test(\"Response should be JSON\", function () {\n    pm.response.to.be.json;\n});\n\n// 3. Data array\npm.test(\"Response should contain a non-empty data array\", function () {\n    pm.expect(jsonData.data).to.be.an(\"array\").that.is.not.empty;\n});\n\n// 4. Requested limit\npm.test(\"Returned records should respect the requested limit\", function () {\n    pm.expect(jsonData.data.length).to.be.at.most(requestedLimit);\n    pm.expect(jsonData.per_page).to.eql(requestedLimit);\n});\n\n// 5. Record validation\npm.test(\"Each record should contain valid fact data\", function () {\n    jsonData.data.forEach(function (item) {\n        pm.expect(item.fact).to.be.a(\"string\").and.not.be.empty;\n        pm.expect(item.length).to.be.a(\"number\");\n    });\n});\n\n// 6. Data integrity\npm.test(\"Each fact length should match its actual text length\", function () {\n    jsonData.data.forEach(function (item, index) {\n        pm.expect(\n            item.length,\n            `Length mismatch in record ${index + 1}: ${item.fact}`\n        ).to.eql(item.fact.length);\n    });\n});\n\n// 7. Maximum fact length\npm.test(\"Each fact should respect max_length\", function () {\n    jsonData.data.forEach(function (item) {\n        pm.expect(item.fact.length).to.be.at.most(maxLength);\n    });\n});\n\n// 8. Pagination metadata\npm.test(\"Pagination metadata should be valid\", function () {\n    pm.expect(jsonData.current_page).to.be.a(\"number\").and.above(0);\n    pm.expect(jsonData.last_page).to.be.a(\"number\").and.above(0);\n    pm.expect(jsonData.total).to.be.a(\"number\").and.at.least(0);\n\n    pm.expect(jsonData.current_page).to.be.at.most(jsonData.last_page);\n});\n\n// 9. First page navigation\npm.test(\"First page should have a next page but no previous page\", function () {\n    if (jsonData.current_page === 1) {\n        pm.expect(jsonData.next_page_url).to.be.a(\"string\");\n        pm.expect(jsonData.prev_page_url).to.be.null;\n    }\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/facts?limit=10&max_length=140",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "facts"
+          ],
+          "query": [
+            {
+              "key": "limit",
+              "value": "10"
+            },
+            {
+              "key": "max_length",
+              "value": "140"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "List of Cat Facts",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/facts?limit=5&max_length=140",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "facts"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "5"
+                },
+                {
+                  "key": "max_length",
+                  "value": "140"
+                }
+              ]
+            }
+          },
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": ":status",
+              "value": "200"
+            },
+            {
+              "key": "date",
+              "value": "Wed, 04 Nov 2026 20:16:08 GMT"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json"
+            },
+            {
+              "key": "server",
+              "value": "cloudflare"
+            },
+            {
+              "key": "vary",
+              "value": "Accept-Encoding"
+            },
+            {
+              "key": "cache-control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "x-ratelimit-limit",
+              "value": "100"
+            },
+            {
+              "key": "x-ratelimit-remaining",
+              "value": "99"
+            },
+            {
+              "key": "access-control-allow-origin",
+              "value": "*"
+            },
+            {
+              "key": "set-cookie",
+              "value": "XSRF-TOKEN=eyJpdiI6ImpTbFBDNFQraTErd2lMZ0wvNEowa2c9PSIsInZhbHVlIjoiUWhsdFlZeUxjbUQyWkgyOHpmdVRjTTlSUDB1YmFGY2FaOGhWWG1SdGQrT3dxY2tCT0w5b0ZtRlhsd3VVQUlHWWNsZ3ZNZTBuQmhQM0IxYUtHQ2Jpblg1WjA2Q2p3RGt2cEdlYWhvejBKZUhwOVg4SjdhaUZlT1hrenRDT2o2K08iLCJtYWMiOiIzZGFlNGE3Yjk0ZjkyZTVmMmJiODZlYTNkMDdjZjFmYzA2YWY4NzhmZGM4YWJhY2NhMjMyOTEyZGU3ZDM1NGZhIiwidGFnIjoiIn0%3D; expires=Wed, 04 Nov 2026 22:16:08 GMT; Max-Age=7200; path=/; secure; samesite=lax,catfacts_api_session=eyJpdiI6IjVzeGVFenFEL1J3K0piTEpJaFFtbEE9PSIsInZhbHVlIjoiSDVlbW80ZjZmczZqc1RkRlB1RXIwV1kzaXJZUzdEaGhrdTNWeVVkZ1VEY3Z1RGxvcUZQKy94Sm1qM2pmSW1CU1B2cG92SGx2OVYzcU1FZEF2RlFmOHllbGRKZE5xOUk5RlI4M1Y2akEzT3o5aW9iS3pwQ0FDZW1TTXZIMlZTQ00iLCJtYWMiOiJiYjhmNTk0NDFjZDc4YWExMDQyNjg5NTA1YTllNDEzMGEyODUyY2M0NGI3MGI4NGU0YmU0YWQ2MzBiMmVkM2FjIiwidGFnIjoiIn0%3D; expires=Wed, 04 Nov 2026 22:16:08 GMT; Max-Age=7200; path=/; secure; httponly; samesite=lax"
+            },
+            {
+              "key": "x-frame-options",
+              "value": "SAMEORIGIN"
+            },
+            {
+              "key": "x-xss-protection",
+              "value": "1; mode=block"
+            },
+            {
+              "key": "x-content-type-options",
+              "value": "nosniff"
+            },
+            {
+              "key": "content-encoding",
+              "value": "gzip"
+            },
+            {
+              "key": "nel",
+              "value": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}"
+            },
+            {
+              "key": "cf-cache-status",
+              "value": "DYNAMIC"
+            },
+            {
+              "key": "report-to",
+              "value": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=Gjir7eEqN%2FZ9aF7S8oLTQxAyWzWKaGISWsmT%2BL012sZ%2B66lFn0dV6nIGI0e2YjU5PPF6ZpRJijigLSc7NB1MtEVjfNLU3i1Gh%2B%2B5XtLJgLQEJk2b8x6MnvSnQRDIaVBr\"}]}"
+            },
+            {
+              "key": "cf-ray",
+              "value": "a5564b752baa7402-JNB"
+            },
+            {
+              "key": "alt-svc",
+              "value": "h3=\":443\"; ma=86400"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"current_page\": 1,\n  \"data\": [\n    {\n      \"fact\": \"Cats have 3 eyelids.\",\n      \"length\": 20\n    },\n    {\n      \"fact\": \"Cats walk on their toes.\",\n      \"length\": 24\n    },\n    {\n      \"fact\": \"Most cats adore sardines.\",\n      \"length\": 25\n    },\n    {\n      \"fact\": \"Cats dislike citrus scent.\",\n      \"length\": 26\n    },\n    {\n      \"fact\": \"Cats have supersonic hearing\",\n      \"length\": 28\n    }\n  ],\n  \"first_page_url\": \"https://catfact.ninja/facts?page=1\",\n  \"from\": 1,\n  \"last_page\": 49,\n  \"last_page_url\": \"https://catfact.ninja/facts?page=49\",\n  \"links\": [\n    {\n      \"url\": null,\n      \"label\": \"Previous\",\n      \"page\": null,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/facts?page=1\",\n      \"label\": \"1\",\n      \"page\": 1,\n      \"active\": true\n    },\n    {\n      \"url\": \"https://catfact.ninja/facts?page=2\",\n      \"label\": \"2\",\n      \"page\": 2,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/facts?page=3\",\n      \"label\": \"3\",\n      \"page\": 3,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/facts?page=4\",\n      \"label\": \"4\",\n      \"page\": 4,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/facts?page=5\",\n      \"label\": \"5\",\n      \"page\": 5,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/facts?page=6\",\n      \"label\": \"6\",\n      \"page\": 6,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/facts?page=7\",\n      \"label\": \"7\",\n      \"page\": 7,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/facts?page=8\",\n      \"label\": \"8\",\n      \"page\": 8,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/facts?page=9\",\n      \"label\": \"9\",\n      \"page\": 9,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/facts?page=10\",\n      \"label\": \"10\",\n      \"page\": 10,\n      \"active\": false\n    },\n    {\n      \"url\": null,\n      \"label\": \"...\",\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/facts?page=48\",\n      \"label\": \"48\",\n      \"page\": 48,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/facts?page=49\",\n      \"label\": \"49\",\n      \"page\": 49,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/facts?page=2\",\n      \"label\": \"Next\",\n      \"page\": 2,\n      \"active\": false\n    }\n  ],\n  \"next_page_url\": \"https://catfact.ninja/facts?page=2\",\n  \"path\": \"https://catfact.ninja/facts\",\n  \"per_page\": 5,\n  \"prev_page_url\": null,\n  \"to\": 5,\n  \"total\": 241\n}"
+        },
+        {
+          "name": "List of Cat Facts",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/facts?limit=10&max_length=140",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "facts"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "max_length",
+                  "value": "140"
+                }
+              ]
+            }
+          },
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": ":status",
+              "value": "200"
+            },
+            {
+              "key": "date",
+              "value": "Wed, 04 Nov 2026 20:18:41 GMT"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json"
+            },
+            {
+              "key": "server",
+              "value": "cloudflare"
+            },
+            {
+              "key": "vary",
+              "value": "Accept-Encoding"
+            },
+            {
+              "key": "cache-control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "x-ratelimit-limit",
+              "value": "100"
+            },
+            {
+              "key": "x-ratelimit-remaining",
+              "value": "99"
+            },
+            {
+              "key": "access-control-allow-origin",
+              "value": "*"
+            },
+            {
+              "key": "set-cookie",
+              "value": "XSRF-TOKEN=eyJpdiI6IktGalgvNUNSQXhsT3hiRVFiWU1hWmc9PSIsInZhbHVlIjoid2JyL1pPMWV6MlkrVyt5QXRGUkN6NjVQNS9jT2pGamorODA1T0VEQ1R5Rk9VSktiWmZJK3h4cm1GWmhvdk1lb1FGS3RuSWV4c3FJaDZ0cUJRZ3dubEN4Q3hhR3lsZDU2ZlZGdDdMMnlaKzNFWU1jamkxK0RsVzk2VDJLWUFaUlAiLCJtYWMiOiI2NDhjNGMwZjNkNGFkYmY0ZjAzYjgxMDNmYTIyNDA2YjkzOTZmZGUyYzNiNTVlOWU0NWE5NGM1M2IxNDE1YTZmIiwidGFnIjoiIn0%3D; expires=Wed, 04 Nov 2026 22:18:41 GMT; Max-Age=7200; path=/; secure; samesite=lax,catfacts_api_session=eyJpdiI6IjBQamZ4dTVNZDkrL25pQWN2YTk5dHc9PSIsInZhbHVlIjoiYmtmbEg4QnMzbE9pN2hSTmNQUm9CNGRoVGhVeWoyci9KNm9RZzJZTFltWHhxQ2dWODdWN2wxS0FDNEoyeEg1andpZkhGTWZvZE1XVGpvSng4V01lRHFOQ3U0UUNhVzYrZWp4ZTZxeWtqT2M5Y3huY1hlZlpJWUs5b0k1cmdsTmoiLCJtYWMiOiJmZDg3MDYzNzFmOGYxYmZkMjVlZDNhOTc1YzgyZDc2OGMxODVkMzc2NTE0ODk5ZjMyNjBiZTdiNmY2YjdjOWQzIiwidGFnIjoiIn0%3D; expires=Wed, 04 Nov 2026 22:18:41 GMT; Max-Age=7200; path=/; secure; httponly; samesite=lax"
+            },
+            {
+              "key": "x-frame-options",
+              "value": "SAMEORIGIN"
+            },
+            {
+              "key": "x-xss-protection",
+              "value": "1; mode=block"
+            },
+            {
+              "key": "x-content-type-options",
+              "value": "nosniff"
+            },
+            {
+              "key": "content-encoding",
+              "value": "gzip"
+            },
+            {
+              "key": "nel",
+              "value": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}"
+            },
+            {
+              "key": "cf-cache-status",
+              "value": "DYNAMIC"
+            },
+            {
+              "key": "report-to",
+              "value": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=cJ1BIl8roPCdpEAwDT%2FOr01cA7T8sW%2Fz6cnbkkKqKSktub%2FSIV55gjWGj8WRoxB2b9D%2BRWkBsP98dGF0sxB2oZzKMLOO9wdLxu%2BI7SrP55L2HAr4Z7jP1h2eAHxsu2xy\"}]}"
+            },
+            {
+              "key": "cf-ray",
+              "value": "a5564f2dcdbc517e-JNB"
+            },
+            {
+              "key": "alt-svc",
+              "value": "h3=\":443\"; ma=86400"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"current_page\": 1,\n  \"data\": [\n    {\n      \"fact\": \"Cats have 3 eyelids.\",\n      \"length\": 20\n    },\n    {\n      \"fact\": \"Cats walk on their toes.\",\n      \"length\": 24\n    },\n    {\n      \"fact\": \"Most cats adore sardines.\",\n      \"length\": 25\n    },\n    {\n      \"fact\": \"Cats dislike citrus scent.\",\n      \"length\": 26\n    },\n    {\n      \"fact\": \"Cats have supersonic hearing\",\n      \"length\": 28\n    },\n    {\n      \"fact\": \"Female cats are polyestrous\",\n      \"length\": 28\n    },\n    {\n      \"fact\": \"A form of AIDS exists in cats.\",\n      \"length\": 30\n    },\n    {\n      \"fact\": \"Female felines are \\\\superfecund\",\n      \"length\": 31\n    },\n    {\n      \"fact\": \"Milk can give some cats diarrhea.\",\n      \"length\": 33\n    },\n    {\n      \"fact\": \"A group of cats is called a clowder.\",\n      \"length\": 36\n    }\n  ],\n  \"first_page_url\": \"https://catfact.ninja/facts?page=1\",\n  \"from\": 1,\n  \"last_page\": 25,\n  \"last_page_url\": \"https://catfact.ninja/facts?page=25\",\n  \"links\": [\n    {\n      \"url\": null,\n      \"label\": \"Previous\",\n      \"page\": null,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/facts?page=1\",\n      \"label\": \"1\",\n      \"page\": 1,\n      \"active\": true\n    },\n    {\n      \"url\": \"https://catfact.ninja/facts?page=2\",\n      \"label\": \"2\",\n      \"page\": 2,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/facts?page=3\",\n      \"label\": \"3\",\n      \"page\": 3,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/facts?page=4\",\n      \"label\": \"4\",\n      \"page\": 4,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/facts?page=5\",\n      \"label\": \"5\",\n      \"page\": 5,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/facts?page=6\",\n      \"label\": \"6\",\n      \"page\": 6,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/facts?page=7\",\n      \"label\": \"7\",\n      \"page\": 7,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/facts?page=8\",\n      \"label\": \"8\",\n      \"page\": 8,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/facts?page=9\",\n      \"label\": \"9\",\n      \"page\": 9,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/facts?page=10\",\n      \"label\": \"10\",\n      \"page\": 10,\n      \"active\": false\n    },\n    {\n      \"url\": null,\n      \"label\": \"...\",\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/facts?page=24\",\n      \"label\": \"24\",\n      \"page\": 24,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/facts?page=25\",\n      \"label\": \"25\",\n      \"page\": 25,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/facts?page=2\",\n      \"label\": \"Next\",\n      \"page\": 2,\n      \"active\": false\n    }\n  ],\n  \"next_page_url\": \"https://catfact.ninja/facts?page=2\",\n  \"path\": \"https://catfact.ninja/facts\",\n  \"per_page\": 10,\n  \"prev_page_url\": null,\n  \"to\": 10,\n  \"total\": 241\n}"
+        }
+      ]
+    },
+    {
+      "name": "List of Cat Breeds",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "\r\nconst jsonData = pm.response.json();\r\n\r\nconst requestedLimit = Number(pm.request.url.query.get(\"limit\"));\r\n\r\npm.test(\"Status code should be 200\", function () {pm.response.to.have.status(200);});\r\n\r\npm.test(\"Response should be JSON\", function () {pm.response.to.be.json;});\r\n\r\npm.test(\"Response should contain a non-empty breed array\", function () {\r\n    pm.expect(jsonData.data).to.be.an(\"array\");\r\n    pm.expect(jsonData.data).to.not.be.empty;\r\n});\r\n\r\npm.test(\"Returned breeds should respect the requested limit\", function () {\r\n    pm.expect(jsonData.data.length).to.be.at.most(requestedLimit);\r\n});\r\n\r\npm.test(\"Each breed should contain the expected properties\", function () {\r\n    jsonData.data.forEach(function (item) {\r\n        pm.expect(item).to.have.property(\"breed\");\r\n        pm.expect(item).to.have.property(\"country\");\r\n        pm.expect(item).to.have.property(\"origin\");\r\n        pm.expect(item).to.have.property(\"coat\");\r\n        pm.expect(item).to.have.property(\"pattern\");\r\n    });\r\n});\r\n\r\npm.test(\"Breed properties should contain string values\", function () {\r\n    jsonData.data.forEach(function (item) {\r\n        pm.expect(item.breed).to.be.a(\"string\");\r\n        pm.expect(item.country).to.be.a(\"string\");\r\n        pm.expect(item.origin).to.be.a(\"string\");\r\n        pm.expect(item.coat).to.be.a(\"string\");\r\n        pm.expect(item.pattern).to.be.a(\"string\");\r\n    });\r\n});\r\n\r\npm.test(\"Breed names should not be empty\", function () {\r\n    jsonData.data.forEach(function (item) {pm.expect(item.breed.trim()).to.not.be.empty;});\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/breeds?limit=9",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "breeds"
+          ],
+          "query": [
+            {
+              "key": "limit",
+              "value": "9"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "List of Cat Breeds",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/breeds?limit=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "breeds"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": ":status",
+              "value": "200"
+            },
+            {
+              "key": "date",
+              "value": "Wed, 04 Nov 2026 20:29:32 GMT"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json"
+            },
+            {
+              "key": "server",
+              "value": "cloudflare"
+            },
+            {
+              "key": "vary",
+              "value": "Accept-Encoding"
+            },
+            {
+              "key": "cache-control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "x-ratelimit-limit",
+              "value": "100"
+            },
+            {
+              "key": "x-ratelimit-remaining",
+              "value": "99"
+            },
+            {
+              "key": "access-control-allow-origin",
+              "value": "*"
+            },
+            {
+              "key": "set-cookie",
+              "value": "XSRF-TOKEN=eyJpdiI6IlovMk50SlVLVWd0RVNpVkpiTmFKbHc9PSIsInZhbHVlIjoicGltZi9wNVJVN1hFRHRoUVl6S2hZWXgyMjFOOG9QK0Nmc3hUbklFTmVLRDV5alFEZnF1SkZyWXRRUThJS2pwTVNLYnVoTzYrSkgyaHV3K2wvdVRObkM1bUcyekdaT1UrVnhrLzA3TDM4YkhrRCtFY1RZTFpWTFBiOWNsMFVpc2MiLCJtYWMiOiI0MGU2MGMyYmQyZGU0MWZhYzY4OTg2NzFhODFiM2I0NWUzOGQ3N2FhMzUzZGIzZDIxMGRhZTQ5NTg5OTQ5OTNkIiwidGFnIjoiIn0%3D; expires=Wed, 04 Nov 2026 22:29:32 GMT; Max-Age=7200; path=/; secure; samesite=lax,catfacts_api_session=eyJpdiI6ImlFMG9DbEM3SVpZdWVPZHVYRlNiWkE9PSIsInZhbHVlIjoiRkNrZlV1SlFrc3RHclU3SlRvUXlmcVlCTk9OQXlXS1hmZ1ZLL2ZHRFQ3UE9va1prYTF6ZUN5RW90U3BodlVsL1ZlalcvVnVRZVNMS0Z0am1FV0NreVU5Z25CcDhHRU9jSUhvOE9YRit4aG1CY0tvdXF0d2ZpMld0TVJMM3hGWU0iLCJtYWMiOiIxYzVmZWI3MjJhNWJiOTg0NmJmMzBlYzk5MmI4NDZmYTlhMTU1NGNhZjVkZDM5ODhiNTRmY2U3M2Y4Zjk1ZjE2IiwidGFnIjoiIn0%3D; expires=Wed, 04 Nov 2026 22:29:32 GMT; Max-Age=7200; path=/; secure; httponly; samesite=lax"
+            },
+            {
+              "key": "x-frame-options",
+              "value": "SAMEORIGIN"
+            },
+            {
+              "key": "x-xss-protection",
+              "value": "1; mode=block"
+            },
+            {
+              "key": "x-content-type-options",
+              "value": "nosniff"
+            },
+            {
+              "key": "content-encoding",
+              "value": "gzip"
+            },
+            {
+              "key": "nel",
+              "value": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}"
+            },
+            {
+              "key": "cf-cache-status",
+              "value": "DYNAMIC"
+            },
+            {
+              "key": "report-to",
+              "value": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=mJX7SnlzshqdtLTbMWt%2Fb0m%2FNpdg%2FvGRSp%2FZtzDLJBV3anazVd%2B9qM2DhB%2BV8DLBnHaJ6Tn4c7%2Bfx74Ef2y5E%2BFfef%2Fvhn2SUSp0VZJU6IA8N8YYat3GNIjn5gknmGLz\"}]}"
+            },
+            {
+              "key": "cf-ray",
+              "value": "a5565f12eb843930-JNB"
+            },
+            {
+              "key": "alt-svc",
+              "value": "h3=\":443\"; ma=86400"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"current_page\": 1,\n  \"data\": [\n    {\n      \"breed\": \"Abyssinian\",\n      \"country\": \"Ethiopia\",\n      \"origin\": \"Natural/Standard\",\n      \"coat\": \"Short\",\n      \"pattern\": \"Ticked\"\n    },\n    {\n      \"breed\": \"Aegean\",\n      \"country\": \"Greece\",\n      \"origin\": \"Natural/Standard\",\n      \"coat\": \"Semi-long\",\n      \"pattern\": \"Bi- or tri-colored\"\n    },\n    {\n      \"breed\": \"American Curl\",\n      \"country\": \"United States\",\n      \"origin\": \"Mutation\",\n      \"coat\": \"Short/Long\",\n      \"pattern\": \"All\"\n    },\n    {\n      \"breed\": \"American Bobtail\",\n      \"country\": \"United States\",\n      \"origin\": \"Mutation\",\n      \"coat\": \"Short/Long\",\n      \"pattern\": \"All\"\n    },\n    {\n      \"breed\": \"American Shorthair\",\n      \"country\": \"United States\",\n      \"origin\": \"Natural\",\n      \"coat\": \"Short\",\n      \"pattern\": \"All but colorpoint\"\n    },\n    {\n      \"breed\": \"American Wirehair\",\n      \"country\": \"United States\",\n      \"origin\": \"Mutation\",\n      \"coat\": \"Rex\",\n      \"pattern\": \"All but colorpoint\"\n    },\n    {\n      \"breed\": \"Arabian Mau\",\n      \"country\": \"Arabian Peninsula\",\n      \"origin\": \"Natural\",\n      \"coat\": \"Short\",\n      \"pattern\": \"\"\n    },\n    {\n      \"breed\": \"Australian Mist\",\n      \"country\": \"Australia\",\n      \"origin\": \"Crossbreed\",\n      \"coat\": \"Short\",\n      \"pattern\": \"Spotted and Classic tabby\"\n    },\n    {\n      \"breed\": \"Asian\",\n      \"country\": \"developed in the United Kingdom (founding stock from Asia)\",\n      \"origin\": \"\",\n      \"coat\": \"Short\",\n      \"pattern\": \"Evenly solid\"\n    },\n    {\n      \"breed\": \"Asian Semi-longhair\",\n      \"country\": \"United Kingdom\",\n      \"origin\": \"Crossbreed\",\n      \"coat\": \"Semi-long\",\n      \"pattern\": \"Solid\"\n    }\n  ],\n  \"first_page_url\": \"https://catfact.ninja/breeds?page=1\",\n  \"from\": 1,\n  \"last_page\": 10,\n  \"last_page_url\": \"https://catfact.ninja/breeds?page=10\",\n  \"links\": [\n    {\n      \"url\": null,\n      \"label\": \"Previous\",\n      \"page\": null,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/breeds?page=1\",\n      \"label\": \"1\",\n      \"page\": 1,\n      \"active\": true\n    },\n    {\n      \"url\": \"https://catfact.ninja/breeds?page=2\",\n      \"label\": \"2\",\n      \"page\": 2,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/breeds?page=3\",\n      \"label\": \"3\",\n      \"page\": 3,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/breeds?page=4\",\n      \"label\": \"4\",\n      \"page\": 4,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/breeds?page=5\",\n      \"label\": \"5\",\n      \"page\": 5,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/breeds?page=6\",\n      \"label\": \"6\",\n      \"page\": 6,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/breeds?page=7\",\n      \"label\": \"7\",\n      \"page\": 7,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/breeds?page=8\",\n      \"label\": \"8\",\n      \"page\": 8,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/breeds?page=9\",\n      \"label\": \"9\",\n      \"page\": 9,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/breeds?page=10\",\n      \"label\": \"10\",\n      \"page\": 10,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/breeds?page=2\",\n      \"label\": \"Next\",\n      \"page\": 2,\n      \"active\": false\n    }\n  ],\n  \"next_page_url\": \"https://catfact.ninja/breeds?page=2\",\n  \"path\": \"https://catfact.ninja/breeds\",\n  \"per_page\": 10,\n  \"prev_page_url\": null,\n  \"to\": 10,\n  \"total\": 98\n}"
+        },
+        {
+          "name": "List of Cat Breeds",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/breeds?limit=9",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "breeds"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "9"
+                }
+              ]
+            }
+          },
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": ":status",
+              "value": "200"
+            },
+            {
+              "key": "date",
+              "value": "Wed, 04 Nov 2026 20:31:35 GMT"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json"
+            },
+            {
+              "key": "server",
+              "value": "cloudflare"
+            },
+            {
+              "key": "vary",
+              "value": "Accept-Encoding"
+            },
+            {
+              "key": "cache-control",
+              "value": "no-cache, private"
+            },
+            {
+              "key": "x-ratelimit-limit",
+              "value": "100"
+            },
+            {
+              "key": "x-ratelimit-remaining",
+              "value": "97"
+            },
+            {
+              "key": "access-control-allow-origin",
+              "value": "*"
+            },
+            {
+              "key": "set-cookie",
+              "value": "XSRF-TOKEN=eyJpdiI6IndCVzlXRXFzU0pHZlgySjlLWkYyOUE9PSIsInZhbHVlIjoiMlk0OWNDbkx3VDVNR0prdkxYd0pxOHJCalVOVWg4Si9VenFJdXdKZnBzV1VwakIxWEdjRCtURzZRc2o4YTRoWU1zWXAwTzN4Zml4RklBMDEzMkhRdURuSGV5TFRGZkxFY0lmaHVJWTQybXZFL2h2b2hTVGJ5S3AvbTY4YnNBWFAiLCJtYWMiOiJmN2I3Y2I2ZmQzZjlkZDVkNzE5NWFiMjMxNzQ3YThlODEyNmJlMTU4M2NjOWUyYTgwMTRlMTAwYmQ5MzlhYTE2IiwidGFnIjoiIn0%3D; expires=Wed, 04 Nov 2026 22:31:35 GMT; Max-Age=7200; path=/; secure; samesite=lax,catfacts_api_session=eyJpdiI6IlR2a0NESHZ6YndTM1lGR1RPeTREVkE9PSIsInZhbHVlIjoiQ3hUeTZnRVFqRUlUc3hxSXdSTlllWHBIQm9abFE1RzROdXM1VS9VOWVjYnJONTNBMzh3TjYyNDJadnJxRnBra0tLcVgwbjJrazdQTkN5SlJINVNRaWQyamJ0YzVud3VXS1J6bVZzbkRUeFQ2UjMweXZuRmVKdTZLb3l3dzhNeEoiLCJtYWMiOiJlYzFmYmNlYjkxYTVmZTQ1NGIxMGUwNzcyZjZhMThiNWYyMzlkZmQ2Mjc5NGRjZjlhNWNiMTcxNTg3ZWQ4ODg4IiwidGFnIjoiIn0%3D; expires=Wed, 04 Nov 2026 22:31:35 GMT; Max-Age=7200; path=/; secure; httponly; samesite=lax"
+            },
+            {
+              "key": "x-frame-options",
+              "value": "SAMEORIGIN"
+            },
+            {
+              "key": "x-xss-protection",
+              "value": "1; mode=block"
+            },
+            {
+              "key": "x-content-type-options",
+              "value": "nosniff"
+            },
+            {
+              "key": "content-encoding",
+              "value": "gzip"
+            },
+            {
+              "key": "nel",
+              "value": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}"
+            },
+            {
+              "key": "cf-cache-status",
+              "value": "DYNAMIC"
+            },
+            {
+              "key": "report-to",
+              "value": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=j%2Bk4LoAcrDIkFVzP0URhIvl%2Fpbvl9JJB%2FyeHgSf3RXh2FkWm5NG3IRPc3%2FGTJLiUBxyQqddbbxDZkpAjh9Ym1AEyFylii26KAzExdDFIYzKbCgj3J68gXFFTOWjFGwcN\"}]}"
+            },
+            {
+              "key": "cf-ray",
+              "value": "a5566214da056cb8-DUR"
+            },
+            {
+              "key": "alt-svc",
+              "value": "h3=\":443\"; ma=86400"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"current_page\": 1,\n  \"data\": [\n    {\n      \"breed\": \"Abyssinian\",\n      \"country\": \"Ethiopia\",\n      \"origin\": \"Natural/Standard\",\n      \"coat\": \"Short\",\n      \"pattern\": \"Ticked\"\n    },\n    {\n      \"breed\": \"Aegean\",\n      \"country\": \"Greece\",\n      \"origin\": \"Natural/Standard\",\n      \"coat\": \"Semi-long\",\n      \"pattern\": \"Bi- or tri-colored\"\n    },\n    {\n      \"breed\": \"American Curl\",\n      \"country\": \"United States\",\n      \"origin\": \"Mutation\",\n      \"coat\": \"Short/Long\",\n      \"pattern\": \"All\"\n    },\n    {\n      \"breed\": \"American Bobtail\",\n      \"country\": \"United States\",\n      \"origin\": \"Mutation\",\n      \"coat\": \"Short/Long\",\n      \"pattern\": \"All\"\n    },\n    {\n      \"breed\": \"American Shorthair\",\n      \"country\": \"United States\",\n      \"origin\": \"Natural\",\n      \"coat\": \"Short\",\n      \"pattern\": \"All but colorpoint\"\n    },\n    {\n      \"breed\": \"American Wirehair\",\n      \"country\": \"United States\",\n      \"origin\": \"Mutation\",\n      \"coat\": \"Rex\",\n      \"pattern\": \"All but colorpoint\"\n    },\n    {\n      \"breed\": \"Arabian Mau\",\n      \"country\": \"Arabian Peninsula\",\n      \"origin\": \"Natural\",\n      \"coat\": \"Short\",\n      \"pattern\": \"\"\n    },\n    {\n      \"breed\": \"Australian Mist\",\n      \"country\": \"Australia\",\n      \"origin\": \"Crossbreed\",\n      \"coat\": \"Short\",\n      \"pattern\": \"Spotted and Classic tabby\"\n    },\n    {\n      \"breed\": \"Asian\",\n      \"country\": \"developed in the United Kingdom (founding stock from Asia)\",\n      \"origin\": \"\",\n      \"coat\": \"Short\",\n      \"pattern\": \"Evenly solid\"\n    }\n  ],\n  \"first_page_url\": \"https://catfact.ninja/breeds?page=1\",\n  \"from\": 1,\n  \"last_page\": 11,\n  \"last_page_url\": \"https://catfact.ninja/breeds?page=11\",\n  \"links\": [\n    {\n      \"url\": null,\n      \"label\": \"Previous\",\n      \"page\": null,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/breeds?page=1\",\n      \"label\": \"1\",\n      \"page\": 1,\n      \"active\": true\n    },\n    {\n      \"url\": \"https://catfact.ninja/breeds?page=2\",\n      \"label\": \"2\",\n      \"page\": 2,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/breeds?page=3\",\n      \"label\": \"3\",\n      \"page\": 3,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/breeds?page=4\",\n      \"label\": \"4\",\n      \"page\": 4,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/breeds?page=5\",\n      \"label\": \"5\",\n      \"page\": 5,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/breeds?page=6\",\n      \"label\": \"6\",\n      \"page\": 6,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/breeds?page=7\",\n      \"label\": \"7\",\n      \"page\": 7,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/breeds?page=8\",\n      \"label\": \"8\",\n      \"page\": 8,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/breeds?page=9\",\n      \"label\": \"9\",\n      \"page\": 9,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/breeds?page=10\",\n      \"label\": \"10\",\n      \"page\": 10,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/breeds?page=11\",\n      \"label\": \"11\",\n      \"page\": 11,\n      \"active\": false\n    },\n    {\n      \"url\": \"https://catfact.ninja/breeds?page=2\",\n      \"label\": \"Next\",\n      \"page\": 2,\n      \"active\": false\n    }\n  ],\n  \"next_page_url\": \"https://catfact.ninja/breeds?page=2\",\n  \"path\": \"https://catfact.ninja/breeds\",\n  \"per_page\": 9,\n  \"prev_page_url\": null,\n  \"to\": 9,\n  \"total\": 98\n}"
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": ""
+    }
+  ]
+}

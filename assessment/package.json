@@ -1,0 +1,29 @@
+{
+  "name": "qa-automation-technical-assessment",
+  "version": "1.0.0",
+  "description": "QA Automation Technical Assessment using Playwright BDD, TypeScript and Postman",
+  "license": "ISC",
+  "author": "Amarah Morgan",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "bddgen": "npx bddgen --config=playwright.config.ts",
+    "test:ui": "npm run bddgen && playwright test",
+    "lint": "eslint . --ignore-pattern \"tests/mobile/mobile/**\" --ignore-pattern \"dist/**\" --ignore-pattern \"reports/**\" --ignore-pattern \"test-results/**\" --ignore-pattern \"playwright-report/**\" --ignore-pattern \".features-gen/**\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.64.1",
+    "@stylistic/eslint-plugin": "^5.10.0",
+    "@types/node": "^25.9.9",
+    "eslint": "^10.4.1",
+    "eslint-plugin-import-x": "^4.16.2",
+    "eslint-plugin-jsdoc": "^63.0.1",
+    "globals": "^17.6.0",
+    "playwright-bdd": "^9.2.1",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.60.1"
+  }
+}

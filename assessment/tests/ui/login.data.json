@@ -1,0 +1,33 @@
+[
+    {
+        "scenario": "Login with valid credentials",
+        "testData": {
+            "username": "standard_user",
+            "password": "secret_sauce"
+        },
+        "expectedResult": {
+            "pageTitle": "Products",
+            "url": "inventory.html"
+        }
+    },
+    {
+        "scenario": "Login with an invalid username",
+        "testData": {
+            "username": "standuser",
+            "password": "secret_sauce"
+        },
+        "expectedResult": {
+            "errorMessage": "Username and password do not match any user in this service"
+        }
+    },
+    {
+        "scenario": "Login with an incorrect password",
+        "testData": {
+            "username": "standard_user",
+            "password": "cf23fd23"
+        },
+        "expectedResult": {
+            "errorMessage": "Username and password do not match any user in this service"
+        }
+    }
+]

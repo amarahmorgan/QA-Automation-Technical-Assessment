@@ -339,4 +339,4 @@ Evidence collected for the assessment includes:
 - Cross-browser test execution results.
 - Automated test failure details and debugging evidence.
 
-Test reports should be reviewed to distinguish genuine application defects from test automation or environment issues.[](url)
+Test reports should be reviewed to distinguish genuine application defects from test automation or environment issues.

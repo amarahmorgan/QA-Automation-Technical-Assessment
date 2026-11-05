@@ -1,0 +1,50 @@
+[
+    {
+        "scenario": "Checkout with missing first name",
+        "testData": {
+            "firstName": "",
+            "lastName": "Customer",
+            "postalCode": "8001"
+        },
+        "expectedResult": {
+            "errorMessage": "Error: First Name is required"
+        }
+    },
+    {
+        "scenario": "Checkout with missing last name",
+        "testData": {
+            "firstName": "Test",
+            "lastName": "",
+            "postalCode": "8001"
+        },
+        "expectedResult": {
+            "errorMessage": "Error: Last Name is required"
+        }
+    },
+    {
+        "scenario": "Checkout with missing postal code",
+        "testData": {
+            "firstName": "Test",
+            "lastName": "Customer",
+            "postalCode": ""
+        },
+        "expectedResult": {
+            "errorMessage": "Error: Postal Code is required"
+        }
+    },
+    {
+        "scenario": "Complete a successful purchase",
+        "testData": {
+            "firstName": "Test",
+            "lastName": "Customer",
+            "postalCode": "8001"
+        },
+        "expectedResult": {
+            "subtotalCents": 12994,
+            "taxCents": 1040,
+            "totalCents": 14034,
+            "confirmationHeader": "Thank you for your order!",
+            "confirmationMessage": "Your order has been dispatched, and will arrive just as fast as the pony can get there!"
+        }
+    }
+]
